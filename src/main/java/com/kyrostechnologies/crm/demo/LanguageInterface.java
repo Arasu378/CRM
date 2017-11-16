@@ -14,5 +14,5 @@ public interface LanguageInterface {
 public List<LanguageModel>getLanguageList();
 @Procedure(name = "`Settings.Language_InsertLanguage`")
 public LanguageResponse InsertLanguage(@Param("languageCultureName") String inParam1,@Param("languageName") String inParam2);
-
+public List<LanguageModel>getTempLanguageList();
 }

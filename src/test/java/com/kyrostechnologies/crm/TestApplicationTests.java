@@ -32,10 +32,11 @@ public class TestApplicationTests {
 	public void getLanguage() {
 		EntityManager em=emf.createEntityManager();
 		em.getTransaction().begin();
-		StoredProcedureQuery query=em.createNamedStoredProcedureQuery("getLanguageQuery");
-		query.execute();
-		LanguageModel model=(LanguageModel)query.getOutputParameterValue("lists");
-		  System.out.println("Model : "+model.getLanguageName());
+		StoredProcedureQuery query=em.createNamedStoredProcedureQuery("`Settings.Language_InsertLanguage`");
+			query.setParameter("languageCultureName", "test1");
+			query.setParameter("languageName", "test2");
+		boolean value=query.execute();
+		  System.out.println("boolean value : "+value);
 		  em.getTransaction().commit();
 		  em.close();
 	}

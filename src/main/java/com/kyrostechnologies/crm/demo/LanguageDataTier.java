@@ -23,6 +23,9 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+
+import net.sf.ehcache.hibernate.HibernateUtil;
+
 @Repository
 public class LanguageDataTier  implements LanguageInterface{
 			NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -33,6 +36,7 @@ public class LanguageDataTier  implements LanguageInterface{
 			
 			@PersistenceContext
 			private EntityManager entityManager;
+			//private SessionFactory sessionFactory=HibernateUtil.getSessionFactory();
 			
 	@SuppressWarnings("unchecked")
 	@Override
@@ -85,6 +89,11 @@ public class LanguageDataTier  implements LanguageInterface{
 		
 	}
 		return response;
+	}
+	@Override
+	public List<LanguageModel> getTempLanguageList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
