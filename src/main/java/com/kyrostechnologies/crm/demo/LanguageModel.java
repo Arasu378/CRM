@@ -18,18 +18,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name = "settings.language")
 @NamedStoredProcedureQueries({
-	   @NamedStoredProcedureQuery(name = "in_only_test", 
-	                              procedureName = "Settings.Language_InsertLanguage",
+		@NamedStoredProcedureQuery(name="`Settings.Language_GetLanguage`",
+								procedureName="`Settings.Language_GetLanguage`",
+								resultClasses = { LanguageModel.class },
+								parameters = {
+		                                 @StoredProcedureParameter(mode = ParameterMode.OUT, name = "list", type = LanguageModel.class)
+		                                 
+		                              })
+		,
+	   @NamedStoredProcedureQuery(name = "`Settings.Language_InsertLanguage`", 
+	                              procedureName = "`Settings.Language_InsertLanguage`",
 	                              parameters = {
-	                                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "LanguageCultureName", type = String.class),
-	                                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "LanguageName", type = String.class)
-	                              }),
-	   @NamedStoredProcedureQuery(name = "in_and_out_test", 
-	                              procedureName = "test_pkg.in_and_out_test",
-	                              parameters = {
-	                                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "inParam1", type = String.class),
-	                                 @StoredProcedureParameter(mode = ParameterMode.OUT, name = "outParam1", type = String.class)
+	                                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "languageCultureName", type = String.class),
+	                                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "languageName", type = String.class)
 	                              })
+//	   @NamedStoredProcedureQuery(name = "in_and_out_test", 
+//	                              procedureName = "test_pkg.in_and_out_test",
+//	                              parameters = {
+//	                                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "inParam1", type = String.class),
+//	                                 @StoredProcedureParameter(mode = ParameterMode.OUT, name = "outParam1", type =  String.class)
+//	                              })
 //	   ,
 //	   @NamedStoredProcedureQuery(
 //			    name="getUsers", 

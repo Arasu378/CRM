@@ -24,6 +24,7 @@ public class LanguageController {
 	}
 	@RequestMapping(method=RequestMethod.POST,value="/language")
 	public LanguageResponse insertLanguage(@RequestBody LanguageModel model) {
+		System.out.println("APi input : "+model.getLanguageCultureName()+" / /"+model.getLanguageName());
 	    return languageModel.InsertLanguage(model.getLanguageCultureName(),model.getLanguageName());
 		
 	}

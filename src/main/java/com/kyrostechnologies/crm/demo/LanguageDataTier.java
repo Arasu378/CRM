@@ -1,10 +1,23 @@
 package com.kyrostechnologies.crm.demo;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
+import javax.xml.transform.Result;
 
-
+import org.carrot2.util.attribute.Input;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties.Session;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -18,10 +31,15 @@ public class LanguageDataTier  implements LanguageInterface{
 				this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
 			}
 			
+			@PersistenceContext
+			private EntityManager entityManager;
 			
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<LanguageModel> getLanguageList() {
-		
+//		  StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("`Settings.Language_GetLanguage`");
+//		List<LanguageModel> storedProcedureResults =(List<LanguageModel>) storedProcedure.getResultList();
+//		List<LanguageModel>ls=new ArrayList<>();	
 		String query="CALL `Settings.Language_GetLanguage`();";
 		List<LanguageModel>list=namedParameterJdbcTemplate.query(query, getSqlParameterSource(null),new GetLanguageBusinnessLogicMapper());
 		return list;
@@ -45,10 +63,17 @@ public class LanguageDataTier  implements LanguageInterface{
 
 	@Override
 	public LanguageResponse InsertLanguage(String inParam1, String inParam2) {
+		 StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("`Settings.Language_InsertLanguage`");
+			System.out.println("value insert : "+inParam1+"/ /"+inParam2);
+			storedProcedure.setParameter("languageCultureName", inParam1);
+			storedProcedure.setParameter("languageName", inParam2);
+			boolean value=storedProcedure.execute();
+			
+			
 		// TODO Auto-generated method stub
 		LanguageResponse response=new LanguageResponse();
-		int value=0;
-	if(value!=0) {
+		
+	if(value) {
 		response.setIsSuccess(true);
 		response.setLanguageList(getLanguageList());
 		response.setMessage("data successfully inserted");
@@ -61,6 +86,6 @@ public class LanguageDataTier  implements LanguageInterface{
 	}
 		return response;
 	}
-	
+
 
 }
