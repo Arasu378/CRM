@@ -2,6 +2,7 @@ package com.kyrostechnologies.crm.demo;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,8 +30,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	   @NamedStoredProcedureQuery(name = "`Settings.Language_InsertLanguage`", 
 	                              procedureName = "`Settings.Language_InsertLanguage`",
 	                              parameters = {
-	                                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "languageCultureName", type = String.class),
-	                                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "languageName", type = String.class)
+	                                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "LanguageCultureName", type = String.class),
+	                                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "LanguageName", type = String.class)
 	                              })
 //	   @NamedStoredProcedureQuery(name = "in_and_out_test", 
 //	                              procedureName = "test_pkg.in_and_out_test",
@@ -51,16 +52,22 @@ public class LanguageModel implements Serializable{
 @Id
 @GeneratedValue(strategy=GenerationType.AUTO)
 @JsonProperty("LanguageId")
+@Column(name="LanguageId")
 private int languageId;
 @JsonProperty("LanguageCultureName")
+@Column(name="LanguageCultureName")
 private String languageCultureName;
 @JsonProperty("LanguageName")
+@Column(name="LanguageName")
 private String languageName;
 @JsonProperty("IsActive")
+@Column(name="IsActive")
 private boolean isActive;
 @JsonProperty("CreatedDate")
+@Column(name="CreatedDate")
 private String createdDate;
 @JsonProperty("ModifiedDate")
+@Column(name="ModifiedDate")
 private String modifiedDate;
 public LanguageModel(){
 	

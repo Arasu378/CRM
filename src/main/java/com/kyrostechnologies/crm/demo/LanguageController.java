@@ -23,11 +23,16 @@ public class LanguageController {
 		return languageModel.getLanguageList();
 	}
 	@RequestMapping(method=RequestMethod.POST,value="/language")
-	public LanguageResponse insertLanguage(@RequestBody LanguageModel model) {
+	public   LanguageResponse insertLanguage(@RequestBody LanguageModel model) {
 		System.out.println("APi input : "+model.getLanguageCultureName()+" / /"+model.getLanguageName());
 	    return languageModel.InsertLanguage(model.getLanguageCultureName(),model.getLanguageName());
 		
 	}
 	
-	
+	@RequestMapping(method=RequestMethod.POST,value="/languagetest")
+	public   void insertLanguageTest(@RequestBody LanguageModel model) {
+		System.out.println("APi input : "+model.getLanguageCultureName()+" / /"+model.getLanguageName());
+	   languageModel.inserttestLanguage(model);
+		
+	}
 }

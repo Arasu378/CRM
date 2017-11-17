@@ -3,31 +3,29 @@ package com.kyrostechnologies.crm.demo;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
-import javax.xml.transform.Result;
+import javax.sql.DataSource;
 
-import org.carrot2.util.attribute.Input;
-import org.hibernate.Query;
-import org.hibernate.SessionFactory;
+import org.hibernate.Session;
+import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ServerProperties.Session;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
-import net.sf.ehcache.hibernate.HibernateUtil;
 
 @Repository
 public class LanguageDataTier  implements LanguageInterface{
+	private SimpleJdbcCall createUserProc;
+	 
 			NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 			@Autowired
 			public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate)throws DataAccessException{
@@ -36,14 +34,17 @@ public class LanguageDataTier  implements LanguageInterface{
 			
 			@PersistenceContext
 			private EntityManager entityManager;
-			//private SessionFactory sessionFactory=HibernateUtil.getSessionFactory();
-			
-	@SuppressWarnings("unchecked")
+			 @Autowired
+			    public void setDataSource(DataSource dataSource) {
+			       this.createUserProc = new SimpleJdbcCall(dataSource).withProcedureName("create_user").withReturnValue();
+			    }
+//			@Autowired
+//			TestInterface testInterface;
 	@Override
 	public List<LanguageModel> getLanguageList() {
 //		  StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("`Settings.Language_GetLanguage`");
-//		List<LanguageModel> storedProcedureResults =(List<LanguageModel>) storedProcedure.getResultList();
-//		List<LanguageModel>ls=new ArrayList<>();	
+//		List<LanguageModel> list =(List<LanguageModel>) storedProcedure.getResultList();
+	
 		String query="CALL `Settings.Language_GetLanguage`();";
 		List<LanguageModel>list=namedParameterJdbcTemplate.query(query, getSqlParameterSource(null),new GetLanguageBusinnessLogicMapper());
 		return list;
@@ -67,27 +68,77 @@ public class LanguageDataTier  implements LanguageInterface{
 
 	@Override
 	public LanguageResponse InsertLanguage(String inParam1, String inParam2) {
-		 StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("`Settings.Language_InsertLanguage`");
-			System.out.println("value insert : "+inParam1+"/ /"+inParam2);
-			storedProcedure.setParameter("languageCultureName", inParam1);
-			storedProcedure.setParameter("languageName", inParam2);
-			boolean value=storedProcedure.execute();
-			
-			
-		// TODO Auto-generated method stub
 		LanguageResponse response=new LanguageResponse();
+
+//        Session session = getSession();
+//        
+//        session.doWork(new Work() {
+//			
+//			@Override
+//			public void execute(Connection connection) throws SQLException {
+//				CallableStatement cs = null;
+//				
+//				  try {
+//	                    cs = connection.prepareCall("{CALL `Settings.Language_InsertLanguage`(?, ?)}");
+//	                    cs.setString(1, inParam1);
+//	                    cs.setString(2, inParam2);
+//	                  boolean value=  cs.execute();
+//	              	
+//	              	if(value) {
+//	              		response.setIsSuccess(true);
+//	              		response.setLanguageList(getLanguageList());
+//	              		response.setMessage("data successfully inserted");
+//	              		
+//	              	}else {
+//	              		response.setIsSuccess(false);
+//	              		response.setLanguageList(null);
+//	              		response.setMessage("data is not inserted");
+//	              		
+//	              	}
+//	                 
+//	                   
+//	                    cs.close();
+//	                    
+//
+//	                } finally {
+//	                    // close cs
+//	                	try {
+//	                		if(connection!=null) {
+//	                			connection.close();
+//	                		}
+//	                	}catch(Exception e) {
+//	                		e.printStackTrace();
+//	                	}
+//	                }
+//			}
+//		});
 		
-	if(value) {
-		response.setIsSuccess(true);
-		response.setLanguageList(getLanguageList());
-		response.setMessage("data successfully inserted");
 		
-	}else {
-		response.setIsSuccess(false);
-		response.setLanguageList(null);
-		response.setMessage("data is not inserted");
 		
-	}
+		
+		
+		
+//		 StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("`Settings.Language_InsertLanguage`");
+//			System.out.println("value insert : "+inParam1+"/ /"+inParam2);
+//			storedProcedure.setParameter("LanguageCultureName", inParam1);
+//			storedProcedure.setParameter("LanguageName", inParam2);
+//			boolean value=storedProcedure.execute();
+//			
+//			
+//		// TODO Auto-generated method stub
+//		LanguageResponse response=new LanguageResponse();
+//		
+//	if(value) {
+//		response.setIsSuccess(true);
+//		response.setLanguageList(getLanguageList());
+//		response.setMessage("data successfully inserted");
+//		
+//	}else {
+//		response.setIsSuccess(false);
+//		response.setLanguageList(null);
+//		response.setMessage("data is not inserted");
+//		
+//	}
 		return response;
 	}
 	@Override
@@ -95,6 +146,21 @@ public class LanguageDataTier  implements LanguageInterface{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+//	private Session getSession() {
+//        // get session from entitymanager. Assuming hibernate
+//        return entityManager.unwrap(org.hibernate.Session.class);
+//    }
+	@Override
+	public void inserttestLanguage(LanguageModel model) {
+		SqlParameterSource inParams = new MapSqlParameterSource()
+				.addValue("LanguageCultureName", model.getLanguageCultureName())
+				.addValue("LanguageName", model.getLanguageName());
+				
+    	
+		Map result = createUserProc.execute(inParams);
+		
+		
+	}
 
 }

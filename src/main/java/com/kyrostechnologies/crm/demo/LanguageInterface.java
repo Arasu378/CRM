@@ -12,7 +12,9 @@ import org.springframework.data.repository.query.Param;
 public interface LanguageInterface {
 	//@Procedure('LanguageModel.get_users')
 public List<LanguageModel>getLanguageList();
-@Procedure(name = "`Settings.Language_InsertLanguage`")
-public LanguageResponse InsertLanguage(@Param("languageCultureName") String inParam1,@Param("languageName") String inParam2);
+@Procedure(name = "`Settings.Language_GetLanguage`")
+public LanguageResponse InsertLanguage(@Param("LanguageCultureName") String inParam1,@Param("LanguageName") String inParam2);
 public List<LanguageModel>getTempLanguageList();
+@Procedure(name="`Settings.Language_GetLanguage`")
+public void inserttestLanguage(LanguageModel model);
 }
