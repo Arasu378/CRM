@@ -35,4 +35,10 @@ public class LanguageController {
 	   languageModel.inserttestLanguage(model);
 		
 	}
+	@RequestMapping(method=RequestMethod.POST,value="/languagenext")
+	public   void insertLanguageNext(@RequestBody LanguageModel model) {
+		System.out.println("APi input : "+model.getLanguageCultureName()+" / /"+model.getLanguageName());
+	   languageModel.insertLanguageNext(model.getLanguageCultureName(), model.getLanguageName());
+		
+	}
 }

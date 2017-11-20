@@ -29,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 		,
 	   @NamedStoredProcedureQuery(name = "`Settings.Language_InsertLanguage`", 
 	                              procedureName = "`Settings.Language_InsertLanguage`",
+	                              resultClasses= {LanguageModel.class},
 	                              parameters = {
 	                                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "LanguageCultureName", type = String.class),
 	                                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "LanguageName", type = String.class)

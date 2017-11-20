@@ -15,6 +15,9 @@ import org.hibernate.Session;
 import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -23,7 +26,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class LanguageDataTier  implements LanguageInterface{
+public class LanguageDataTier  implements LanguageInterface,TestingInterface{
 	private SimpleJdbcCall createUserProc;
 	 
 			NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -118,27 +121,27 @@ public class LanguageDataTier  implements LanguageInterface{
 		
 		
 		
-//		 StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("`Settings.Language_InsertLanguage`");
-//			System.out.println("value insert : "+inParam1+"/ /"+inParam2);
-//			storedProcedure.setParameter("LanguageCultureName", inParam1);
-//			storedProcedure.setParameter("LanguageName", inParam2);
-//			boolean value=storedProcedure.execute();
-//			
-//			
-//		// TODO Auto-generated method stub
-//		LanguageResponse response=new LanguageResponse();
-//		
-//	if(value) {
-//		response.setIsSuccess(true);
-//		response.setLanguageList(getLanguageList());
-//		response.setMessage("data successfully inserted");
-//		
-//	}else {
-//		response.setIsSuccess(false);
-//		response.setLanguageList(null);
-//		response.setMessage("data is not inserted");
-//		
-//	}
+		 StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("`Settings.Language_InsertLanguage`");
+			System.out.println("value insert : "+inParam1+"/ /"+inParam2);
+			storedProcedure.setParameter("LanguageCultureName", inParam1);
+			storedProcedure.setParameter("LanguageName", inParam2);
+			boolean value=storedProcedure.execute();
+			
+			
+		// TODO Auto-generated method stub
+	//	LanguageResponse response=new LanguageResponse();
+		
+	if(value) {
+		response.setIsSuccess(true);
+		response.setLanguageList(getLanguageList());
+		response.setMessage("data successfully inserted");
+		
+	}else {
+		response.setIsSuccess(false);
+		response.setLanguageList(null);
+		response.setMessage("data is not inserted");
+		
+	}
 		return response;
 	}
 	@Override
@@ -162,5 +165,81 @@ public class LanguageDataTier  implements LanguageInterface{
 		
 		
 	}
+@Override
+public Iterable<LanguageModel> findAll(Sort arg0) {
+	// TODO Auto-generated method stub
+	return null;
+}
+@Override
+public Page<LanguageModel> findAll(Pageable arg0) {
+	// TODO Auto-generated method stub
+	return null;
+}
+@Override
+public long count() {
+	// TODO Auto-generated method stub
+	return 0;
+}
+@Override
+public void delete(String arg0) {
+	// TODO Auto-generated method stub
+	
+}
+@Override
+public void delete(LanguageModel arg0) {
+	// TODO Auto-generated method stub
+	
+}
+@Override
+public void delete(Iterable<? extends LanguageModel> arg0) {
+	// TODO Auto-generated method stub
+	
+}
+@Override
+public void deleteAll() {
+	// TODO Auto-generated method stub
+	
+}
+@Override
+public boolean exists(String arg0) {
+	// TODO Auto-generated method stub
+	return false;
+}
+@Override
+public Iterable<LanguageModel> findAll() {
+	// TODO Auto-generated method stub
+	return null;
+}
+@Override
+public Iterable<LanguageModel> findAll(Iterable<String> arg0) {
+	// TODO Auto-generated method stub
+	return null;
+}
+@Override
+public LanguageModel findOne(String arg0) {
+	// TODO Auto-generated method stub
+	return null;
+}
+@Override
+public <S extends LanguageModel> S save(S arg0) {
+	// TODO Auto-generated method stub
+	return null;
+}
+@Override
+public <S extends LanguageModel> Iterable<S> save(Iterable<S> arg0) {
+	// TODO Auto-generated method stub
+	return null;
+}
+@Override
+public void insertLanguageNext(String param1, String param2) {
+	// TODO Auto-generated method stub
+
+	 StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("`Settings.Language_InsertLanguage`");
+		System.out.println("value insert : "+param1+"/ /"+param2);
+		storedProcedure.setParameter("languageculturename", param1);
+		storedProcedure.setParameter("languagename", param2);
+		boolean value=storedProcedure.execute();
+		
+}
 
 }
